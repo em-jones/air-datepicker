@@ -12,7 +12,7 @@ import {
 import './datepickerCell.scss';
 
 export default class DatepickerCell {
-    constructor({type, date, dp, opts, body} = {}) {
+    constructor({ type, date, dp, opts, body } = {}) {
         this.type = type;
         this.singleType = this.type.slice(0, -1); // days -> day etc.'`
         this.date = date;
@@ -25,7 +25,7 @@ export default class DatepickerCell {
     }
 
     init() {
-        let {onRenderCell} = this.opts;
+        let { onRenderCell } = this.opts;
 
         if (onRenderCell) {
             this.customData = onRenderCell({
@@ -54,7 +54,7 @@ export default class DatepickerCell {
     }
 
     _createElement() {
-        let {year, month, date} = getParsedDate(this.date);
+        let { year, month, date } = getParsedDate(this.date);
         let extraAttrs = this.customData?.attrs || {};
 
         this.$cell = createElement({
@@ -70,9 +70,9 @@ export default class DatepickerCell {
 
     _getClassName() {
         let currentDate = new Date();
-        let {selectOtherMonths, selectOtherYears} = this.opts;
-        let {minDate, maxDate, isDateDisabled} = this.dp;
-        let {day} = getParsedDate(this.date);
+        let { selectOtherMonths, selectOtherYears } = this.opts;
+        let { minDate, maxDate, isDateDisabled } = this.dp;
+        let { day } = getParsedDate(this.date);
         let isOutOfMinMaxRange = this._isOutOfMinMaxRange();
         let isDisabled = isDateDisabled(this.date);
 
@@ -97,7 +97,7 @@ export default class DatepickerCell {
                 break;
             case consts.months:
                 classNameType = classNames({
-                    '-disabled-': isOutOfMinMaxRange
+                    '-disabled-': isOutOfMinMaxRange || isDisabled
                 });
                 break;
             case consts.years:
@@ -112,8 +112,8 @@ export default class DatepickerCell {
     }
 
     _getHtml() {
-        let {year, month, date} = getParsedDate(this.date);
-        let {showOtherMonths, showOtherYears} = this.opts;
+        let { year, month, date } = getParsedDate(this.date);
+        let { showOtherMonths, showOtherYears } = this.opts;
 
         if (this.customData?.html) {
             return this.customData.html;
@@ -130,9 +130,9 @@ export default class DatepickerCell {
     }
 
     _isOutOfMinMaxRange() {
-        let {minDate, maxDate} = this.dp;
-        let {type, date: cellDate} = this;
-        let {month, year, date} = getParsedDate(cellDate);
+        let { minDate, maxDate } = this.dp;
+        let { type, date: cellDate } = this;
+        let { month, year, date } = getParsedDate(cellDate);
         let isDay = type === consts.days;
         let isYear = type === consts.years;
 
@@ -184,7 +184,7 @@ export default class DatepickerCell {
     }
 
     _handleRangeStatus() {
-        const {selectedDates, focusDate, rangeDateTo, rangeDateFrom} = this.dp;
+        const { selectedDates, focusDate, rangeDateTo, rangeDateFrom } = this.dp;
         const selectedDatesLen = selectedDates.length;
 
         if (!selectedDatesLen) return;
@@ -195,7 +195,7 @@ export default class DatepickerCell {
         if (selectedDatesLen === 1 && focusDate) {
             const focusDateIsLargerThenSelected = isDateBigger(focusDate, selectedDates[0]);
 
-            from =  focusDateIsLargerThenSelected ? selectedDates[0] : focusDate;
+            from = focusDateIsLargerThenSelected ? selectedDates[0] : focusDate;
             to = focusDateIsLargerThenSelected ? focusDate : selectedDates[0];
         }
 
